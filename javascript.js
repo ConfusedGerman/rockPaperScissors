@@ -12,13 +12,8 @@ function getComputerChoice () {
     }
 }
 
-
+//Determine the winner of a single round
 function playRound (computer, player) {
-    // False input
-    if (player != "rock" && player != "paper" && player != "scissors") {
-        console.log("Only rock, paper and scissors are allowed!")
-        return "Noone";
-    }
     // Tie
     if (computer === player) {
         return "Noone";
@@ -39,31 +34,25 @@ function playRound (computer, player) {
     }
 }
 
-function game () {
-    let playerScore = 0;
-    let computerScore = 0;
+function game (playerChoice) {
+    let computerChoice = getComputerChoice();
 
-        let computerChoice = getComputerChoice();
-        // Ask user for his choice
-        let getPlayerChoice = prompt("Rock, Paper or Scissors? ");
-        let playerChoice = getPlayerChoice.toLowerCase();
-
-        // Play a single round
-        let winner = playRound(computerChoice, playerChoice);
-        //Print winner
-        console.log("Your choice is " + playerChoice + ", the computer chose " + computerChoice + ". " + winner + " won.");
-
-    // End of game with five points
-    if (playerScore === 5 || computerScore === 5) {
-        if (playerScore > computerScore) {
-            console.log("You won!");
-        }
-        else {
-            console.log("Computer won!");
-        }
-    }
+    // Play a single round
+    let winner = playRound(computerChoice, playerChoice);
+    //Print winner
+    console.log("Your choice is " + playerChoice + ", the computer chose " + computerChoice + ". " + winner + " won.");
 }
-// Call function to start game
-game();
 
-//NEW BRANCH?
+
+
+
+//get players choice from UI (buttons)
+const buttons = document.querySelectorAll('button');
+
+//for the button clicked return the buttons text and play a round with the choice
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        let choice = button.textContent;
+        game(choice.toLowerCase());
+    });
+});
