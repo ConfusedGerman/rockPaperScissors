@@ -34,6 +34,7 @@ function playRound (computer, player) {
     }
 }
 
+// count player and computer score
 let computerScore = 0;
 let playerScore = 0;
 
@@ -42,10 +43,29 @@ function game (playerChoice) {
 
     // Play a single round
     let winner = playRound(computerChoice, playerChoice);
+
+    // Update score
+    if (winner === "Player") {
+        playerScore ++;
+    }
+    else if (winner === "Computer") {
+        computerScore ++;
+    }
+
     //Print winner in div with id winners
     const container = document.querySelector('#winners');
     const div = document.createElement('div');
-    div.textContent = "Your choice is " + playerChoice + ", the computer chose " + computerChoice + ". " + winner + " won.";
+
+    //Print the overall winner and disable the click event listener
+    if (playerScore === 5 || computerScore === 5) {
+        div.textContent = winner + " won!";
+        buttons.forEach((button) => {
+            button.removeEventListener('click', buttonClickHandler);
+          });
+    }
+    else {
+        div.textContent = "Your choice is " + playerChoice + ", the computer chose " + computerChoice + ". " + winner + " won.";
+    }
     container.appendChild(div);
 
 }
@@ -53,13 +73,17 @@ function game (playerChoice) {
 
 
 
-//get players choice from UI (buttons)
-const buttons = document.querySelectorAll('button');
-
-//for the button clicked return the buttons text and play a round with the choice
-buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-        let choice = button.textContent;
-        game(choice.toLowerCase());
-    });
-});
+// Define the event listener function, so that the click-event can be removed later from this function
+function buttonClickHandler() {
+    //retrieves the text content of the element that triggered the event
+    let choice = this.textContent;
+    game(choice.toLowerCase());
+  }
+  
+  // Get the players choice buttons
+  const buttons = document.querySelectorAll('button');
+  
+  // Add the event listener to each button
+  buttons.forEach((button) => {
+    button.addEventListener('click', buttonClickHandler);
+  });
