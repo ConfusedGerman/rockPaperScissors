@@ -34,13 +34,20 @@ function playRound (computer, player) {
     }
 }
 
+let computerScore = 0;
+let playerScore = 0;
+
 function game (playerChoice) {
     let computerChoice = getComputerChoice();
 
     // Play a single round
     let winner = playRound(computerChoice, playerChoice);
-    //Print winner
-    console.log("Your choice is " + playerChoice + ", the computer chose " + computerChoice + ". " + winner + " won.");
+    //Print winner in div with id winners
+    const container = document.querySelector('#winners');
+    const div = document.createElement('div');
+    div.textContent = "Your choice is " + playerChoice + ", the computer chose " + computerChoice + ". " + winner + " won.";
+    container.appendChild(div);
+
 }
 
 
